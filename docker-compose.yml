@@ -1,3 +1,6 @@
+volumes:
+  slide-data:
+
 services:
   nginx:
     image: nginx:alpine
@@ -8,6 +11,7 @@ services:
     depends_on:
       - frontend
       - discretelog
+      - slidegen
     restart: unless-stopped
 
   frontend:
@@ -22,9 +26,10 @@ services:
       - "8080"
     restart: unless-stopped
 
-  # Future services:
-  # slidegen:
-  #   image: ghcr.io/qiumatthew/website-slidegen:latest
-  #   expose:
-  #     - "8081"
-  #   restart: unless-stopped
+  slidegen:
+    image: ghcr.io/qiumatthew/website-slidegen:latest
+    expose:
+      - "8081"
+    volumes:
+      - slide-data:/app/static
+    restart: unless-stopped
