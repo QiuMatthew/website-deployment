@@ -7,6 +7,7 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - frontend
+      - discretelog
     restart: unless-stopped
 
   frontend:
@@ -15,11 +16,15 @@ services:
       - "80"
     restart: unless-stopped
 
+  discretelog:
+    image: ghcr.io/qiumatthew/website-discretelog:latest
+    expose:
+      - "8080"
+    restart: unless-stopped
+
   # Future services:
-  # api:
-  #   image: ghcr.io/qiumatthew/website-api:latest
+  # slidegen:
+  #   image: ghcr.io/qiumatthew/website-slidegen:latest
   #   expose:
-  #     - "8000"
-  #   env_file:
-  #     - .env
+  #     - "8081"
   #   restart: unless-stopped
